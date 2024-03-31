@@ -1,7 +1,11 @@
-abstract class SearchDocumentInfo {
+import 'package:equatable/equatable.dart';
+
+abstract class SearchDocumentInfo extends Equatable {
   final SearchType searchType;
-  SearchDocumentInfo({required this.searchType});
+  const SearchDocumentInfo({required this.searchType});
   Map<String, dynamic> toJson();
+  @override
+  List<Object?> get props => [searchType];
 }
 
 enum SearchType {

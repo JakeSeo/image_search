@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/favorite_image/bloc.dart';
 import '../../../../blocs/search/bloc.dart';
 import '../../../../blocs/search_history/bloc.dart';
 import '../../../../models/search_document/image_document/info.dart';
@@ -16,7 +17,8 @@ class SearchPage extends StatefulWidget {
   State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchPageState extends State<SearchPage>
+    with AutomaticKeepAliveClientMixin {
   final TextEditingController _queryController = TextEditingController();
   final FocusNode _queryFocusNode = FocusNode();
   bool _searched = false;
@@ -24,6 +26,9 @@ class _SearchPageState extends State<SearchPage> {
   final ScrollController _scrollController = ScrollController();
 
   Timer? _debounce;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   initState() {
@@ -51,6 +56,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
@@ -125,22 +131,55 @@ class _SearchPageState extends State<SearchPage> {
                   context.read<SearchHistoryBloc>().add(ClearSearchHistory()),
             );
           }
-          return BlocBuilder<SearchImageBloc, SearchState>(
-            builder: (context, state) {
+          return Builder(
+            builder: (context) {
+              final searchBloc = context.watch<SearchImageBloc>();
+              final favoriteBloc = context.watch<FavoriteImageBloc>();
+
+              toggleFavorite(ImageDocumentInfo image) {
+                if (favoriteBloc.state.imageList.contains(image)) {
+                  context
+                      .read<FavoriteImageBloc>()
+                      .add(UnfavoriteImage(image: image));
+                } else {
+                  context
+                      .read<FavoriteImageBloc>()
+                      .add(FavoriteImage(image: image));
+                }
+              }
+
               return ListView.builder(
                 controller: _scrollController,
-                itemCount: state.documents.length,
+                itemCount: searchBloc.state.documents.length,
                 itemBuilder: (context, index) {
-                  final document = state.documents[index] as ImageDocumentInfo;
+                  final image =
+                      searchBloc.state.documents[index] as ImageDocumentInfo;
                   return GestureDetector(
-                    child: AspectRatio(
-                      aspectRatio: document.width / document.height,
-                      child: CachedNetworkImage(
-                        imageUrl: document.imageUrl,
-                        errorWidget: (context, url, error) {
-                          return Container(color: Colors.grey.shade300);
-                        },
-                      ),
+                    onDoubleTap: () => toggleFavorite(image),
+                    child: Stack(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: image.width / image.height,
+                          child: CachedNetworkImage(
+                            imageUrl: image.imageUrl,
+                            errorWidget: (context, url, error) {
+                              return Container(color: Colors.grey.shade300);
+                            },
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          child: IconButton(
+                            onPressed: () => toggleFavorite(image),
+                            icon: Icon(
+                              favoriteBloc.state.imageList.contains(image)
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },

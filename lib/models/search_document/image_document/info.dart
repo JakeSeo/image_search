@@ -22,7 +22,7 @@ class ImageDocumentInfo extends SearchDocumentInfo {
   final String docUrl;
   @JsonKey(name: "datetime")
   final DateTime datetime;
-  ImageDocumentInfo({
+  const ImageDocumentInfo({
     required this.collection,
     required this.thumbnailUrl,
     required this.imageUrl,
@@ -38,4 +38,12 @@ class ImageDocumentInfo extends SearchDocumentInfo {
 
   @override
   Map<String, dynamic> toJson() => _$ImageDocumentInfoToJson(this);
+
+  @override
+  List<Object?> get props => [
+        super.searchType,
+        imageUrl,
+        displaySitename,
+        docUrl,
+      ];
 }
