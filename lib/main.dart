@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'app_router.dart';
 import 'blocs/search/bloc.dart';
+import 'blocs/search_history/bloc.dart';
 import 'injector.dart';
 
 void main() async {
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SearchImageBloc>(create: (_) => SearchImageBloc()),
+        BlocProvider<SearchHistoryBloc>(create: (_) => SearchHistoryBloc()),
       ],
       child: MaterialApp.router(
         routerConfig: injector.get<AppRouter>().appRouter,
