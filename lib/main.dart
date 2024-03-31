@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'app_router.dart';
+import 'blocs/search/bloc.dart';
 import 'injector.dart';
 
 void main() async {
@@ -15,12 +17,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: injector.get<AppRouter>().appRouter,
-      title: '이미지 검색',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SearchImageBloc>(create: (_) => SearchImageBloc()),
+      ],
+      child: MaterialApp.router(
+        routerConfig: injector.get<AppRouter>().appRouter,
+        title: '다음 검색',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
       ),
     );
   }
