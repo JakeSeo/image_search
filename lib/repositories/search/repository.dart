@@ -15,4 +15,6 @@ abstract class SearchRepository {
   Future<SearchImageResponseInfo> searchImage({
     @Queries() required SearchQueryParameterInfo param,
   });
+
+  // TODO: 나머지 검색항목 관련 API들 추가 (블로그, 카페, 북 등등)
 }

@@ -23,9 +23,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<SearchImageBloc>(create: (_) => SearchImageBloc()),
         BlocProvider<SearchHistoryBloc>(create: (_) => SearchHistoryBloc()),
-        BlocProvider<FavoriteImageBloc>(
-          create: (_) => FavoriteImageBloc()..add(FavoriteImageInitialize()),
-        ),
+        BlocProvider<FavoriteImageBloc>(create: (_) => FavoriteImageBloc()),
       ],
       child: MaterialApp.router(
         routerConfig: injector.get<AppRouter>().appRouter,

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../views/screens/home/screen.dart';
 import 'models/search_document/image_document/info.dart';
 import 'views/screens/image_details_screen.dart';
+import 'views/screens/webview_screen.dart';
 
 class AppRouter {
   final GoRouter appRouter = GoRouter(
@@ -20,6 +21,15 @@ class AppRouter {
           return ImageDetailsScreen(
             image: state.extra as ImageDocumentInfo,
           );
+        },
+      ),
+      GoRoute(
+        name: WebviewScreen.name,
+        path: WebviewScreen.path,
+        builder: (context, state) {
+          final url = state.uri.queryParameters["url"] ?? "";
+
+          return WebviewScreen(url: url);
         },
       ),
     ],

@@ -15,6 +15,13 @@ class _FavoritesPageState extends State<FavoritesPage>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<FavoriteImageBloc>().add(FavoriteImageInitialize());
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
