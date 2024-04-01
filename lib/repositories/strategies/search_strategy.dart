@@ -4,6 +4,7 @@ import '../../models/search_response/image/info.dart';
 import '../../models/search_response/info.dart';
 import '../search/repository.dart';
 
+// 항목별로 비슷한 검색로직을 처리하기 위한 전략
 // 이미지 외 다른 항목 검색하는 기능을 추가하기 위해 strategy 패턴을 사용해서 해당 검색항목 처리
 abstract class SearchStrategy {
   final SearchRepository repository = injector.get<SearchRepository>();

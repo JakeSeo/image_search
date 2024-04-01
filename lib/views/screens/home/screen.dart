@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'pages/favorites_page.dart';
 import 'pages/search_page.dart';
 
+// 홈화면
 class HomeScreen extends StatefulWidget {
   static String path = "/home";
   static String name = "home";

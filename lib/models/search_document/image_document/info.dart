@@ -4,6 +4,7 @@ import '../info.dart';
 
 part 'info.g.dart';
 
+// 이미지 검색 항목 객체
 @JsonSerializable()
 class ImageDocumentInfo extends SearchDocumentInfo {
   @JsonKey(name: "collection")

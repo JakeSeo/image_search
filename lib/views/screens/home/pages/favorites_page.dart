@@ -19,7 +19,7 @@ class _FavoritesPageState extends State<FavoritesPage>
   @override
   void initState() {
     super.initState();
-    context.read<FavoriteImageBloc>().add(FavoriteImageInitialize());
+    context.read<FavoriteImageBloc>().add(LoadFavoriteImages());
   }
 
   @override
@@ -31,6 +31,19 @@ class _FavoritesPageState extends State<FavoritesPage>
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: BlocBuilder<FavoriteImageBloc, FavoriteImageState>(
           builder: (context, state) {
+            if (state is! LoadedFavoriteImages) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state.images.isEmpty) {
+              return const Center(
+                child: Text(
+                  "즐겨찾기에 추가된 이미지가 없습니다.\n좋아하는 이미지를 검색해서 추가해보세요!",
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+
             return ImageListView(images: state.images);
           },
         ),

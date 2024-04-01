@@ -5,6 +5,7 @@ import 'models/search_document/image_document/info.dart';
 import 'views/screens/image_details_screen.dart';
 import 'views/screens/webview_screen.dart';
 
+// 라우팅
 class AppRouter {
   final GoRouter appRouter = GoRouter(
     initialLocation: HomeScreen.path,

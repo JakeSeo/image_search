@@ -5,6 +5,8 @@ import '../../repositories/strategies/search_strategy.dart';
 part 'event.dart';
 part 'state.dart';
 
+// 검색 관리 Bloc
+// 항목별로 로직은 비슷해서 자식 Bloc을 생성해서 나눌수있도록 Abstract Class로 정의
 abstract class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc({
     required this.strategy,
@@ -75,6 +77,7 @@ abstract class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 }
 
+// 이미지 검색 Bloc
 class SearchImageBloc extends SearchBloc {
   SearchImageBloc() : super(strategy: SearchImageStrategy());
 }

@@ -7,6 +7,8 @@ import '../../models/search_document/image_document/info.dart';
 part 'event.dart';
 part 'state.dart';
 
+// 즐겨찾기 목록 관리 Bloc
+// 즐겨찾기로 저장된 이미지들을 json array로 변환한뒤 String으로 인코딩후 로컬에 저장
 class FavoriteImageBloc extends Bloc<FavoriteImageEvent, FavoriteImageState> {
   FavoriteImageBloc() : super(FavoriteImageInitial()) {
     on<FavoriteImageInitialize>(_initialize);
@@ -23,7 +25,6 @@ class FavoriteImageBloc extends Bloc<FavoriteImageEvent, FavoriteImageState> {
     try {
       sharedPreferences = await SharedPreferences.getInstance();
       emit(FavoriteImageInitialized());
-      add(LoadFavoriteImages());
     } catch (e) {
       emit(FavoriteImageError(errorCode: "FIB-0001", error: e));
     }

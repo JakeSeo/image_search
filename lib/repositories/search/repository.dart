@@ -6,6 +6,7 @@ import '../../models/search_response/image/info.dart';
 
 part 'repository.g.dart';
 
+// 검색 API들을 포함하고 있는 리포지토리
 @RestApi()
 abstract class SearchRepository {
   factory SearchRepository(Dio dio, {String baseUrl}) = _SearchRepository;

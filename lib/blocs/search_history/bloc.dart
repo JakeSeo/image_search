@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'event.dart';
 part 'state.dart';
 
+// 검색 기록 관리 Bloc
 class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
   SearchHistoryBloc() : super(SearchHistoryInitial()) {
     on<SearchHistoryInitialize>(_initialize);

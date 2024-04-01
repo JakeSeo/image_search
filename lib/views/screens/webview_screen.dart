@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+// 이미지의 출처 사이트를 표시하기위한 웹뷰 화면
 class WebviewScreen extends StatefulWidget {
   static String path = "/webview";
   static String name = "webview";
@@ -31,6 +33,14 @@ class _WebviewScreenState extends State<WebviewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.url),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Share.share(widget.url);
+            },
+            icon: Icon(Icons.share, color: Theme.of(context).primaryColor),
+          ),
+        ],
       ),
       body: WebViewWidget(controller: _webViewController),
     );

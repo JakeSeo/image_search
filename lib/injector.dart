@@ -6,6 +6,7 @@ import 'app_router.dart';
 import 'repositories/search/repository.dart';
 import 'services/search_interceptor.dart';
 
+// 의존성 주입
 GetIt injector = GetIt.instance;
 
 void initInjector() {

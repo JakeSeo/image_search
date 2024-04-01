@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../blocs/favorite_image/bloc.dart';
 import '../../models/search_document/image_document/info.dart';
 
+// 이미지 상세 정보 화면
 class ImageDetailsScreen extends StatelessWidget {
   static String path = "/image-details";
   static String name = "image_details";

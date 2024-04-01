@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'info.g.dart';
 
+// 검색 요청시 사용되는 Query Parameter 객체
 @JsonSerializable()
 class SearchQueryParameterInfo {
   @JsonKey(name: "query")

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// 검색 항목 부모 객체
 abstract class SearchDocumentInfo extends Equatable {
   final SearchType searchType;
   const SearchDocumentInfo({required this.searchType});
@@ -8,6 +9,7 @@ abstract class SearchDocumentInfo extends Equatable {
   List<Object?> get props => [searchType];
 }
 
+// 검색 항목 enum
 enum SearchType {
   web,
   vclip,

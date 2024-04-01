@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'info.g.dart';
 
+// 검색 결과의 메터데이터 객체
 @JsonSerializable()
 class SearchMetaInfo {
   @JsonKey(name: "total_count")
