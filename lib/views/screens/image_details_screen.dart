@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/search_document/image_document/info.dart';
@@ -8,15 +9,23 @@ class ImageDetailsScreen extends StatelessWidget {
 
   const ImageDetailsScreen({
     super.key,
-    required this.imageDocument,
+    required this.image,
   });
 
-  final ImageDocumentInfo imageDocument;
+  final ImageDocumentInfo image;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      body: Column(
+        children: [
+          CachedNetworkImage(
+            imageUrl: image.imageUrl,
+            fit: BoxFit.cover,
+          ),
+        ],
+      ),
     );
   }
 }

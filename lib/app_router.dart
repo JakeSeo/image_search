@@ -18,7 +18,7 @@ class AppRouter {
         path: ImageDetailsScreen.path,
         builder: (context, state) {
           return ImageDetailsScreen(
-            imageDocument: state.extra as ImageDocumentInfo,
+            image: state.extra as ImageDocumentInfo,
           );
         },
       ),

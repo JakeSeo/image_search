@@ -4,7 +4,7 @@ class FavoriteImageEvent {}
 
 class FavoriteImageInitialize extends FavoriteImageEvent {}
 
-class LoadFavoriteImageList extends FavoriteImageEvent {}
+class LoadFavoriteImages extends FavoriteImageEvent {}
 
 class FavoriteImage extends FavoriteImageEvent {
   final ImageDocumentInfo image;

@@ -10,7 +10,7 @@ part 'state.dart';
 class FavoriteImageBloc extends Bloc<FavoriteImageEvent, FavoriteImageState> {
   FavoriteImageBloc() : super(FavoriteImageInitial()) {
     on<FavoriteImageInitialize>(_initialize);
-    on<LoadFavoriteImageList>(_loadFavoriteImageList);
+    on<LoadFavoriteImages>(_loadFavoriteImages);
     on<FavoriteImage>(_favoriteImage);
     on<UnfavoriteImage>(_unfavoriteImage);
   }
@@ -23,40 +23,40 @@ class FavoriteImageBloc extends Bloc<FavoriteImageEvent, FavoriteImageState> {
     try {
       sharedPreferences = await SharedPreferences.getInstance();
       emit(FavoriteImageInitialized());
-      add(LoadFavoriteImageList());
+      add(LoadFavoriteImages());
     } catch (e) {
       emit(FavoriteImageError(errorCode: "FIB-0001", error: e));
     }
   }
 
-  _loadFavoriteImageList(
-      LoadFavoriteImageList event, Emitter<FavoriteImageState> emit) async {
-    if (state is LoadingFavoriteImageList) return;
+  _loadFavoriteImages(
+      LoadFavoriteImages event, Emitter<FavoriteImageState> emit) async {
+    if (state is LoadingFavoriteImages) return;
     emit(
-      LoadingFavoriteImageList(
-        imageList: [...state.imageList],
+      LoadingFavoriteImages(
+        images: [...state.images],
       ),
     );
     try {
       final jsonStringList =
           sharedPreferences.getStringList("favorite_image_list") ?? [];
 
-      final imageList = jsonStringList
+      final images = jsonStringList
           .map((jsonString) =>
               ImageDocumentInfo.fromJson(jsonDecode(jsonString)))
           .toList();
-      emit(LoadedFavoriteImageList(imageList: imageList));
+      emit(LoadedFavoriteImages(images: images));
     } catch (e) {
       emit(FavoriteImageError(errorCode: "FIB-0002", error: e));
     }
   }
 
   _favoriteImage(FavoriteImage event, Emitter<FavoriteImageState> emit) {
-    emit(LoadedFavoriteImageList(imageList: [event.image, ...state.imageList]));
+    emit(LoadedFavoriteImages(images: [event.image, ...state.images]));
 
     sharedPreferences.setStringList(
       "favorite_image_list",
-      state.imageList
+      state.images
           .map(
             (image) => jsonEncode(
               image.toJson(),
@@ -67,13 +67,13 @@ class FavoriteImageBloc extends Bloc<FavoriteImageEvent, FavoriteImageState> {
   }
 
   _unfavoriteImage(UnfavoriteImage event, Emitter<FavoriteImageState> emit) {
-    final imageList = [...state.imageList];
-    imageList.removeWhere((image) => image == event.image);
-    emit(LoadedFavoriteImageList(imageList: imageList));
+    final images = [...state.images];
+    images.removeWhere((image) => image == event.image);
+    emit(LoadedFavoriteImages(images: images));
 
     sharedPreferences.setStringList(
       "favorite_image_list",
-      state.imageList
+      state.images
           .map(
             (image) => jsonEncode(
               image.toJson(),

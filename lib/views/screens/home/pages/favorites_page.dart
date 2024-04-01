@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../blocs/favorite_image/bloc.dart';
+import '../components/image_list_view.dart';
 
 class FavoritesPage extends StatefulWidget {
   const FavoritesPage({super.key});
@@ -24,31 +24,7 @@ class _FavoritesPageState extends State<FavoritesPage>
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: BlocBuilder<FavoriteImageBloc, FavoriteImageState>(
           builder: (context, state) {
-            return ListView.builder(
-              itemCount: state.imageList.length,
-              itemBuilder: (context, index) {
-                final document = state.imageList[index];
-                return GestureDetector(
-                  child: AspectRatio(
-                    aspectRatio: document.width / document.height,
-                    child: CachedNetworkImage(
-                      imageUrl: document.imageUrl,
-                      errorWidget: (context, url, error) {
-                        return Container(
-                          color: Colors.grey.shade100,
-                          child: Center(
-                            child: Icon(
-                              Icons.image_not_supported_outlined,
-                              color: Colors.grey.shade300,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-            );
+            return ImageListView(images: state.images);
           },
         ),
       ),

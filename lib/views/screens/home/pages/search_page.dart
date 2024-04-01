@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../blocs/favorite_image/bloc.dart';
 import '../../../../blocs/search/bloc.dart';
 import '../../../../blocs/search_history/bloc.dart';
 import '../../../../models/search_document/image_document/info.dart';
+import '../components/image_list_view.dart';
 import '../components/search_history_widget.dart';
 
 class SearchPage extends StatefulWidget {
@@ -114,79 +113,36 @@ class _SearchPageState extends State<SearchPage>
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Builder(builder: (context) {
-          if (!_searched) {
-            return SearchHistoryWidget(
-              onPress: (query) {
-                FocusManager.instance.primaryFocus?.unfocus();
-                _queryController.text = query;
-                _search(query);
-                _searched = true;
-                setState(() {});
-              },
-              onDelete: (query) => context
-                  .read<SearchHistoryBloc>()
-                  .add(DeleteQuery(query: query)),
-              onClear: () =>
-                  context.read<SearchHistoryBloc>().add(ClearSearchHistory()),
-            );
-          }
-          return Builder(
-            builder: (context) {
-              final searchBloc = context.watch<SearchImageBloc>();
-              final favoriteBloc = context.watch<FavoriteImageBloc>();
-
-              toggleFavorite(ImageDocumentInfo image) {
-                if (favoriteBloc.state.imageList.contains(image)) {
-                  context
-                      .read<FavoriteImageBloc>()
-                      .add(UnfavoriteImage(image: image));
-                } else {
-                  context
-                      .read<FavoriteImageBloc>()
-                      .add(FavoriteImage(image: image));
-                }
-              }
-
-              return ListView.builder(
-                controller: _scrollController,
-                itemCount: searchBloc.state.documents.length,
-                itemBuilder: (context, index) {
-                  final image =
-                      searchBloc.state.documents[index] as ImageDocumentInfo;
-                  return GestureDetector(
-                    onDoubleTap: () => toggleFavorite(image),
-                    child: Stack(
-                      children: [
-                        AspectRatio(
-                          aspectRatio: image.width / image.height,
-                          child: CachedNetworkImage(
-                            imageUrl: image.imageUrl,
-                            errorWidget: (context, url, error) {
-                              return Container(color: Colors.grey.shade300);
-                            },
-                          ),
-                        ),
-                        Positioned(
-                          right: 0,
-                          child: IconButton(
-                            onPressed: () => toggleFavorite(image),
-                            icon: Icon(
-                              favoriteBloc.state.imageList.contains(image)
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+        child: Builder(
+          builder: (context) {
+            if (!_searched) {
+              return SearchHistoryWidget(
+                onPress: (query) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  _queryController.text = query;
+                  _search(query);
+                  _searched = true;
+                  setState(() {});
                 },
+                onDelete: (query) => context
+                    .read<SearchHistoryBloc>()
+                    .add(DeleteQuery(query: query)),
+                onClear: () =>
+                    context.read<SearchHistoryBloc>().add(ClearSearchHistory()),
               );
-            },
-          );
-        }),
+            }
+            return BlocBuilder<SearchImageBloc, SearchState>(
+              builder: (context, state) {
+                return ImageListView(
+                  controller: _scrollController,
+                  images: state.documents
+                      .map((document) => document as ImageDocumentInfo)
+                      .toList(),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

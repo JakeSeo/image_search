@@ -1,8 +1,8 @@
 part of 'bloc.dart';
 
 class FavoriteImageState {
-  final List<ImageDocumentInfo> imageList;
-  FavoriteImageState({this.imageList = const []});
+  final List<ImageDocumentInfo> images;
+  FavoriteImageState({this.images = const []});
 }
 
 class FavoriteImageInitial extends FavoriteImageState {}
@@ -11,12 +11,12 @@ class FavoriteImageInitializing extends FavoriteImageState {}
 
 class FavoriteImageInitialized extends FavoriteImageState {}
 
-class LoadingFavoriteImageList extends FavoriteImageState {
-  LoadingFavoriteImageList({super.imageList});
+class LoadingFavoriteImages extends FavoriteImageState {
+  LoadingFavoriteImages({super.images});
 }
 
-class LoadedFavoriteImageList extends FavoriteImageState {
-  LoadedFavoriteImageList({super.imageList});
+class LoadedFavoriteImages extends FavoriteImageState {
+  LoadedFavoriteImages({super.images});
 }
 
 class FavoriteImageError extends FavoriteImageState {
